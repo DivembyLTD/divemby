@@ -16,7 +16,7 @@ module.exports = {
         }
       });
     } else {
-      return res.status(401).json({type: 'invalid_request_error', message: 'Отсутствует token доступа'});
+      return res.status(401).json({status: 'invalid_request_error', message: 'Отсутствует token доступа'});
     }
   }
 };

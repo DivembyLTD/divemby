@@ -38,30 +38,32 @@ module.exports = () => {
         return res.status(400).json({status: "INVALID_REQUEST"});
       }
 
+      let jwtToken = '';
       const phone = helpers.stripFirstNumber(helpers.stripSpecialCharsAndSpace(req.body.phone));
       const code = helpers.stripSpecialCharsAndSpace(req.body.code);
       const signature = crpt.encrypt(code + phone);
       const codeTempRef = db.ref().child('/temp_codes');
       let verifySignature = codeTempRef.orderByChild('signature').equalTo(signature).once('value', snapshot => {
-        if (_.isNull(snapshot)) {
+        if (_.isNull(snapshot.val())) {
           res.status(403).json({status: "FORBIDDEN"});
         } else {
           // check profile
           const usersRef = db.ref().child('/users');
-          usersRef.orderByChild('phone').equalTo(phone).once('child_added', snapshot => {
+          usersRef.orderByChild('phone').equalTo(phone).once('value', snapshot => {
             if (_.isNull(snapshot.val())) {
               usersRef.push({
                 phone: phone,
                 createdDate: helpers.getSysDate(),
                 lastVisitedAt: helpers.getSysDate()
               }).then(data => {
-                const jwtToken = jwt.sign({userRefKey: data.getKey(), phone: phone}, SALT);
+                console.log('here');
+                jwtToken = jwt.sign({userRefKey: data.getKey(), phone: phone}, SALT);
                 res.json({status: "OK", data: { token: jwtToken}});
               }).catch(err => {
                 res.status(500).json(err);
               });
             } else {
-              const jwtToken = jwt.sign({userRefKey: snapshot.key, phone: snapshot.child('phone').val()}, SALT);
+              jwtToken = jwt.sign({userRefKey: snapshot.key, phone: snapshot.child('phone').val()}, SALT);
               res.json({status: "OK", data: { token: jwtToken}});
             }
 

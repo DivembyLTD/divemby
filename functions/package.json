@@ -19,7 +19,7 @@
     "debug": "3.1.0",
     "express": "4.16.2",
     "firebase": "4.8.1",
-    "firebase-admin": "~5.4.2",
+    "firebase-admin": "5.5.1",
     "firebase-functions": "0.7.5",
     "helmet": "3.9.0",
     "inflection": "1.12.0",

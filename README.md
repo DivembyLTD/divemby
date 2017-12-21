@@ -1,4 +1,9 @@
 Divemby API
+-----------
 
-verifyPhone
-checkCode
+
+**methods:**
+
+ - verifyPhone 
+ - checkCode 
+ - updateProfile

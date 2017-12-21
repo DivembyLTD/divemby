@@ -1,6 +1,12 @@
 {
   "rules": {
     ".read": "auth != null",
-    ".write": "auth != null"
+    ".write": "auth != null",
+    "temp_codes": {
+      	".indexOn": "signature"
+    },
+    "users": {
+    	".indexOn": "phone"
+    }
   }
 }

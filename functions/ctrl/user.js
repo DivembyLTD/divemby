@@ -5,15 +5,22 @@ const db = require('./../lib/firebase');
 const multer = require('multer');
 
 module.exports = () => {
-  updateProfile: (req, res) => {
-    if (!req.body.phone) {
-      return res.status(400).json({status: "INVALID_REQUEST"});
+  return {
+    updateProfile: (req, res) => {
+      let opts = req.body;
+      const usersRef = db.ref('users/' + req.decoded.userRefKey);
+
+      usersRef.once("value").then(snapshot => {
+        if (snapshot.exists()) {
+          usersRef.update(opts).then(data => {
+            res.json({status: 'OK'});
+          }).catch(err => {
+            res.status(500).json({status:'ERROR'});
+          });
+        } else {
+          res.status(404).json({status:'NOT FOUND'});
+        }
+      });
     }
-
-    let phone = helpers.stripFirstNumber(helpers.stripSpecialCharsAndSpace(req.body.phone));
-
-  	const usersRef = db.ref().child('/users');
-    
-    res.json({});
   }
 }

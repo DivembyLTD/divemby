@@ -7,7 +7,7 @@ const debug = require('debug')
 const helmet = require('helmet')
 const compression = require('compression')
 const chalk = require('chalk')
-const app = express()
+
 const firebase = require('firebase')
 const moment = require('moment')
 const errorHandler = require('strong-error-handler');
@@ -17,11 +17,17 @@ const userCtrl = require('./ctrl/user')();
 
 const jtwMiddleware = require('./middleware/jwt');
 
+const app = express()
+app.use(bodyParser.urlencoded({ extended: false }));
+app.use(bodyParser.json())
+
+
 
 app.use(errorHandler({
   debug: true,
   log: true,
 }));
+
 app.use(helmet.xssFilter());
 app.use(helmet.noCache());
 app.use(helmet.noSniff());
@@ -29,8 +35,7 @@ app.use(helmet.frameguard());
 app.use(helmet.hidePoweredBy());
 
 
-app.use(bodyParser.urlencoded({ extended: false }));
-app.use(bodyParser.json());
+
 
 app.use(compression());
 
