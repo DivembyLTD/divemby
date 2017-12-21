@@ -31,8 +31,6 @@ module.exports = {
           resolve(res.data);
         })
         .catch(err => {
-          console.log('im here');
-          console.log(err);
           reject(err);
         });
       }).catch(err => reject(err));
@@ -45,18 +43,18 @@ module.exports = {
     return new Promise((resolve, reject) => {
 
       let transporter = nodemailer.createTransport({
-          host: 'smtp.ethereal.email',
+          host: 'p444978.mail.ihc.ru',
           port: 587,
           secure: false,
           auth: {
-              user: '',
-              pass: ''
+              user: 'noreply@divemby.com',
+              pass: '5vwm96SA4d'
           }
       });
 
       let mailOptions = {
-          from: '"Divemby.com" <information@divemby.com>',
-          to: to
+          from: '"Divemby.com" <noreply@divemby.com>',
+          to: to,
           subject: subject,
           text: 'Hello world?',
           html: '<b>Hello world?</b>'

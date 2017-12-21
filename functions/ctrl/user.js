@@ -5,7 +5,7 @@ const db = require('./../lib/firebase');
 const multer = require('multer');
 
 module.exports = () => {
-  reg: (req, res) => {
+  updateProfile: (req, res) => {
     if (!req.body.phone) {
       return res.status(400).json({status: "INVALID_REQUEST"});
     }

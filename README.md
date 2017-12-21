@@ -1,1 +1,4 @@
 Divemby API
+
+verifyPhone
+checkCode
