@@ -9,5 +9,10 @@ Divemby API
 **methods:**
 
  - verifyPhone 
- - checkCode 
+ - checkCode
  - updateProfile
+   header: 'x-access-token'
+ - uploadImg
+   header: 'x-access-token'
+ - getProfile
+   header: 'x-access-token'

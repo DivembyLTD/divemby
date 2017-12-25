@@ -15,5 +15,4 @@ firebase.initializeApp(config);
 
 const fb = firebase.database();
 
-
 module.exports = fb;
