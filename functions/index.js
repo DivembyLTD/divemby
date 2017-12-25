@@ -17,6 +17,15 @@ const userCtrl = require('./ctrl/user')();
 
 const jtwMiddleware = require('./middleware/jwt');
 
+const Multer = require('multer');
+
+const multer = Multer({
+  storage: Multer.memoryStorage(),
+  limits: {
+    fileSize: 5 * 1024 * 1024
+  }
+});
+
 const app = express()
 app.use(bodyParser.urlencoded({ extended: false }));
 app.use(bodyParser.json())
@@ -48,7 +57,7 @@ app.get("/", (req, res) => {
 
 app.post('/verifyPhone', authCtrl.verifyPhone);
 app.post('/checkCode', authCtrl.checkCode);
-app.post('/updateProfile', jtwMiddleware.verify, userCtrl.updateProfile);
+app.post('/updateProfile', [jtwMiddleware.verify, multer.single('avatar')], userCtrl.updateProfile);
 
 
 // app.post('/reg', (req, res) => {

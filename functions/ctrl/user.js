@@ -2,7 +2,7 @@
 
 const errorHandler = require('strong-error-handler');
 const db = require('./../lib/firebase');
-const multer = require('multer');
+
 
 module.exports = () => {
   return {
