@@ -14,6 +14,7 @@ const errorHandler = require('strong-error-handler');
 
 const authCtrl = require('./ctrl/auth')();
 const userCtrl = require('./ctrl/user')();
+const orderCtrl = require('./ctrl/order')();
 
 const jtwMiddleware = require('./middleware/jwt');
 
@@ -51,12 +52,21 @@ app.get("/", (req, res) => {
   )
 })
 
+// auth and reg
 app.post('/verifyPhone', authCtrl.verifyPhone);
 app.post('/checkCode', authCtrl.checkCode);
+
+// user
 app.post('/updateProfile', jtwMiddleware.verify, userCtrl.updateProfile);
 app.post('/uploadImg', [jtwMiddleware.verify, middlewareMulter], userCtrl.uploadImg);
 app.post('/getProfile', jtwMiddleware.verify, userCtrl.getProfile);
 
+// order
+
+app.post('/setOrder', jtwMiddleware.verify, orderCtrl.setOrder);
+app.post('/updateOrder', jtwMiddleware.verify, orderCtrl.updateOrder);
+app.post('/getSittersByGeo', jtwMiddleware.verify, orderCtrl.getSittersByGeo);
+app.post('/getOrders', jtwMiddleware.verify, orderCtrl.getOrders);
 
 const api = functions.https.onRequest(app);
 

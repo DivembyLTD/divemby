@@ -8,11 +8,19 @@ Divemby API
 
 **methods:**
 
- - verifyPhone 
- - checkCode
- - updateProfile
+ ###### Verify and registration
+  - POST /verifyPhone 
+  - POST /checkCode
+
+ ###### User methods
+  - POST /updateProfile
    header: 'x-access-token'
- - uploadImg
+  - POST /uploadImg
    header: 'x-access-token'
- - getProfile
+  - POST /getProfile
    header: 'x-access-token'
+
+ ###### Order methods
+  - POST /setOrder
+  - POST /updateOrder
+  - POST /getSittersByGeo
