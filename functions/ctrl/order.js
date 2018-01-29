@@ -6,6 +6,12 @@ const helpers = require('./../lib/helpers');
 const _ = require('lodash');
 const utilities = require('./utilities');
 
+const geoOnFire = require('gof');
+// const geoFire = new GeoFire(db.ref("users_geo"));
+const Geohash = require('latlon-geohash');
+
+var gof = new geoOnFire('users', db.ref('users_geo'));
+
 module.exports = () => {
   return {
   	setOrder: (req, res) => {
@@ -19,7 +25,7 @@ module.exports = () => {
 			  pets_ids: req.body.pets_ids,
 			  createdDate: helpers.getSysDate(),
 			}).then(data => {
-				res.json({status: "OK"});
+				res.json({status: "OK" });
 			}).catch(err => {
 				res.status(500).json({status: "ERROR", msg: err});
 			});
@@ -47,8 +53,14 @@ module.exports = () => {
       res.json({status: "OK"});
   	},
 
-  	getSittersByGeo: (req, res) => {
-  		res.json({status: "OK"});
+  	getSittersInfo: (req, res) => {
+      let opts = req.body;
+      if (opts.ids && opts.param) {
+
+      } else {
+        return res.status(400).json({status: "INVALID_REQUEST"});
+      }
+    
   	},
 
   	getOrders: (req, res) => {

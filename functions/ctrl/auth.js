@@ -21,7 +21,6 @@ module.exports = () => {
       const phone = helpers.stripFirstNumber(helpers.stripSpecialCharsAndSpace(req.body.phone));
       const code = _.random(1000,9999);
       utilities.sendSms(phone, 'Ваш пароль на сайте ' + code).then(data => {
-
         codeTempRef.push({
           createdAt: helpers.getSysDate(),
           signature: crpt.encrypt(code + phone)
@@ -54,17 +53,17 @@ module.exports = () => {
               usersRef.push({
                 phone: phone,
                 createdDate: helpers.getSysDate(),
-                lastVisitedAt: helpers.getSysDate()
+                lastVisitedAt: helpers.getSysDate(),
+                balance: 450
               }).then(data => {
-                console.log('here');
                 jwtToken = jwt.sign({userRefKey: data.getKey(), phone: phone}, SALT);
-                res.json({status: "OK", data: { token: jwtToken}});
+                res.json({status: "OK", data: { token: jwtToken, ref: data.getKey() }});
               }).catch(err => {
                 res.status(500).json(err);
               });
             } else {
-              jwtToken = jwt.sign({userRefKey: snapshot.key, phone: snapshot.child('phone').val()}, SALT);
-              res.json({status: "OK", data: { token: jwtToken}});
+              jwtToken = jwt.sign({userRefKey: Object.keys(snapshot.val())[0], phone: snapshot.child(Object.keys(snapshot.val())[0]+'/phone').val() }, SALT);
+              res.json({status: "OK", data: { token: jwtToken, ref: Object.keys(snapshot.val())[0] }});
             }
 
           });
